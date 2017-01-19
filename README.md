@@ -1,11 +1,11 @@
 # Mars Mission: Xamarin
 
 ## Mission Brief
-Your crew on Mars has lost contact with Earth and as a result, your team is lacking a few essential functions.
+Your crew on Mars has lost contact with Earth and as a result, your team is lacking a few essential functions. Some of the people on your team are using iPhones, while the others are using Android devices.
 
-However, your team brought a bot along that could help to re-establish the connection. In order to interact with the bot effectively, we need to make an interface to interact with it. 
+Your team has brought a bot along that could help to re-establish the connection. In order to interact with the bot effectively, we need to make an interface to interact with it. 
 
-After establishing a connection, We also need to create a tool that can patch our camera feed into our Computer Vision API, in order to identify unknown objects.
+After establishing a connection, We also need to create a tool that can patch our camera feeds into our Computer Vision API, in order to identify unknown objects.
 
 ## Pre-requisites
 Go through this [install document](https://github.com/jamesleeht/MarsXamarin/blob/master/INSTALL.md).
