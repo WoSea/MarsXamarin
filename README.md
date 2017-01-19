@@ -3,7 +3,9 @@
 ## Mission Brief
 Your crew on Mars has lost contact with Earth and as a result, your team is lacking a few essential functions. Some of the people on your team are using iPhones, while the others are using Android devices.
 
-Your team has brought a bot along that could help to re-establish the connection. In order to interact with the bot effectively, we need to make an interface to interact with it. 
+As we need a tool that works across all the team's devices, we will be building an application in Xamarin.
+
+Your team has brought a bot along that could help to re-establish the connection. However, to interact with the bot effectively, we need to make an interface to interact with it. 
 
 After establishing a connection, We also need to create a tool that can patch our camera feeds into our Computer Vision API, in order to identify unknown objects.
 
