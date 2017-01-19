@@ -16,4 +16,4 @@ Xamarin allows you to write your code base once in C#/.NET and have it deployed 
 In this Mars Mission guide, we will learn how to:
 
 1. Connect our Xamarin app to a bot and have an interface to interact with it.
-2. Use the Microsoft Computer Vision API within the app
+2. Use the Microsoft Computer Vision API on camera images from the app
