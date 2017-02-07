@@ -8,7 +8,15 @@ Although it is possible to setup your own classes and models for accessing the R
 for use with .NET projects which helps us abstract the REST API calls.
 
 ## Setup
-Let's first start by creating a new Xamarin project in Visual Studio. In this case, we will use a Shared project. We will need to install all the relevant nugets.
+In this repository there is a blank Xamarin.Forms shared project that has been pre-configured with the right nugets for you.
+
+The main nugets installed in this project are:
+- [Bot Connector DirectLine](https://www.nuget.org/packages/Microsoft.Bot.Connector.DirectLine/3.0.0)
+- [Rest Client Runtime](https://www.nuget.org/packages/Microsoft.Rest.ClientRuntime/)
+
+These nugets allow us to communicate with the bot using pre-defined methods and classes, without the need for manually writing HTTP calls.
+
+Click on the `MarsBuddyBlank` submodule in this repository to download the starting project.  
 
 ## Connecting the bot
 Our application needs to communicate with the bot in 2 ways: Sending and receiving messages. As a result, we will need to use methods to send messages to the bot as well as constantly receive messages from the bot.
@@ -17,4 +25,122 @@ The DirectLine nuget we installed will allow us to more easily implement this wi
 
 Right click on the main project and go to Add > New Item > Class and name it `BotConnection.cs`.
 
-Let's add a few things to our new blank class.
+### Imports
+```cs
+using Microsoft.Bot.Connector.DirectLine;
+```
+
+We need to import the relevant namespace from the DirectLine nuget package in order to use its classes and methods.
+
+### Fields
+Let's define a few new variables in our new blank class.
+
+```cs
+class BotConnection
+{
+    public DirectLineClient Client = new DirectLineClient("Z1manpIsazM.cwA.6e4.w3TbL5dPeJKMTivS4iEl_ByEwr760KESaTQ7ftSX2T8");
+    public Conversation MainConversation;
+    public ChannelAccount Account;
+}
+```
+
+First, we create a new `DirectLineClient` object using a DirectLine key (taken from the bot's portal).
+
+For the purposes of this tutorial, we will use this key to connect to the Mars Bot: `Z1manpIsazM.cwA.6e4.w3TbL5dPeJKMTivS4iEl_ByEwr760KESaTQ7ftSX2T8`
+
+Then, there are another 2 variables for storing the current conversation as well as the user's account, which we will define later.
+
+### Constructor
+We will be using the constructor of this class to initialize the `MainConversation` and `Account` fields. These fields will store the information about the current conversation and user.
+
+In this constructor, we can take in a parameter with the user's name to create an account object. We will also start a new conversation using the client.
+
+```cs
+class BotConnection
+{
+    public BotConnection(string accountName)
+    {
+        MainConversation = Client.Conversations.StartConversation();
+        Account = new ChannelAccount { Id = accountName, Name = accountName };
+    }
+}
+```
+
+### Message sending method
+Next, we need to craft a method that allows us to send messages to the bot. This method will take in a parameter with a simple text message
+and use that to create an `Activity` that will be sent to the conversation we initialized.
+
+```cs
+public void SendMessage(string message)
+{
+    Activity activity = new Activity
+    {
+        From = Account,
+        Text = message,
+        Type = ActivityTypes.Message
+    };
+    Client.Conversations.PostActivity(MainConversation.ConversationId, activity);
+}
+```
+
+### Message receiving method
+#### MessageListItem Class
+We will need to create a class that will be used to store the messages in an `ObservableCollection`.
+
+Right click on the main project and go to Add > New Item > Class and name it MessageListItem.cs.
+
+Change the class to look like this:
+
+```cs
+class MessageListItem
+{
+    public string Text { get; set; }
+    public string Sender { get; set; }
+
+    public MessageListItem(string text, string sender)
+    {
+        Text = text;
+        Sender = sender;
+    }
+}
+```
+
+#### Method implementation
+Lastly, we need to have a method that continuously checks the conversation on the server for new messages from the bot.
+
+This method takes in an `ObservableCollection` typed parameter. 
+This collection will later be binded to the UI in Xamarin, so we will need to push new messages into this collection.
+
+In this method, it checks for new messages every second, establishing a watermark every iteration to ensure that we do not retrieve old messages.
+
+```cs
+public async Task GetMessagesAsync(ObservableCollection<MessageListItem> collection)
+{
+    string watermark = null;
+
+    //Loop retrieval
+    while(true)
+    {
+        Debug.WriteLine("Reading message every 1 second");
+        
+        //Get activities (messages) after the watermark
+        var activitySet = await Client.Conversations.GetActivitiesAsync(MainConversation.ConversationId, watermark);
+
+        //Set new watermark
+        watermark = activitySet?.Watermark;
+
+        //Loop through the activities and add them to the list
+        foreach(Activity activity in activitySet.Activities)
+        {
+            if (activity.From.Name == "MarsBot")
+            {
+                collection.Add(new MessageListItem(activity.Text, activity.From.Name));
+            }             
+        }
+
+        //Wait 1 second
+        await Task.Delay(1000);
+    }
+}
+```
+
