@@ -26,6 +26,6 @@ Xamarin allows you to write your code base once in C#/.NET and have it deployed 
 
 In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
 
-1. Connects to a bot
-2. Has an interface that allows you to interact with it
-3. Use the Microsoft Computer Vision API with camera images from the app
+1. [Connects to a bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION1.md)
+2. [Has an interface that allows you to interact with it](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION2.md)
+3. [Use the Microsoft Computer Vision API with camera images from the app](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
