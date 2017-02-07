@@ -1,4 +1,4 @@
-# Mission 1: Connecting a bot to Xamarin
+# Mission 1: Connecting to a bot
 
 ## Introduction
 In this mission, we will be connecting to a bot built in NodeJS and the Microsoft Bot Framework. Bots built using the Microsoft Bot Framework have a Direct Line channel.
@@ -6,17 +6,6 @@ This channel is essentially a REST API that allows us to interact with the bot u
 
 Although it is possible to setup your own classes and models for accessing the REST API, it can be troublesome. Luckily, there is a Nuget package published by Microsoft
 for use with .NET projects which helps us abstract the REST API calls.
-
-## Setup
-In this repository there is a blank Xamarin.Forms shared project that has been pre-configured with the right nugets for you.
-
-The main nugets installed in this project are:
-- [Bot Connector DirectLine](https://www.nuget.org/packages/Microsoft.Bot.Connector.DirectLine/3.0.0)
-- [Rest Client Runtime](https://www.nuget.org/packages/Microsoft.Rest.ClientRuntime/)
-
-These nugets allow us to communicate with the bot using pre-defined methods and classes, without the need for manually writing HTTP calls.
-
-Click on the `MarsBuddyBlank` submodule in this repository to download the starting project.  
 
 ## Connecting the bot
 Our application needs to communicate with the bot in 2 ways: Sending and receiving messages. As a result, we will need to use methods to send messages to the bot as well as constantly receive messages from the bot.
