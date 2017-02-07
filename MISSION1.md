@@ -26,11 +26,10 @@ The DirectLine nuget we installed will allow us to more easily implement this wi
 Right click on the main project and go to Add > New Item > Class and name it `BotConnection.cs`.
 
 ### Imports
+We need to import the relevant namespace from the DirectLine nuget package in order to use its classes and methods.
 ```cs
 using Microsoft.Bot.Connector.DirectLine;
 ```
-
-We need to import the relevant namespace from the DirectLine nuget package in order to use its classes and methods.
 
 ### Fields
 Let's define a few new variables in our new blank class.
@@ -53,8 +52,6 @@ Then, there are another 2 variables for storing the current conversation as well
 ### Constructor
 We will be using the constructor of this class to initialize the `MainConversation` and `Account` fields. These fields will store the information about the current conversation and user.
 
-In this constructor, we can take in a parameter with the user's name to create an account object. We will also start a new conversation using the client.
-
 ```cs
 class BotConnection
 {
@@ -65,10 +62,10 @@ class BotConnection
     }
 }
 ```
+In this constructor, we can take in a parameter with the user's name to create an account object. We will also start a new conversation using the client.
 
 ### Message sending method
-Next, we need to craft a method that allows us to send messages to the bot. This method will take in a parameter with a simple text message
-and use that to create an `Activity` that will be sent to the conversation we initialized.
+Next, we need to craft a method that allows us to send messages to the bot.
 
 ```cs
 public void SendMessage(string message)
@@ -82,6 +79,8 @@ public void SendMessage(string message)
     Client.Conversations.PostActivity(MainConversation.ConversationId, activity);
 }
 ```
+This method will take in a parameter with a simple text message
+and use that to create an `Activity` that will be sent to the conversation we initialized.
 
 ### Message receiving method
 #### MessageListItem Class
@@ -107,11 +106,6 @@ class MessageListItem
 
 #### Method implementation
 Lastly, we need to have a method that continuously checks the conversation on the server for new messages from the bot.
-
-This method takes in an `ObservableCollection` typed parameter. 
-This collection will later be binded to the UI in Xamarin, so we will need to push new messages into this collection.
-
-In this method, it checks for new messages every second, establishing a watermark every iteration to ensure that we do not retrieve old messages.
 
 ```cs
 public async Task GetMessagesAsync(ObservableCollection<MessageListItem> collection)
@@ -143,4 +137,11 @@ public async Task GetMessagesAsync(ObservableCollection<MessageListItem> collect
     }
 }
 ```
+
+In this method, it checks for new messages every second, establishing a watermark every iteration to ensure that we do not retrieve old messages.
+
+This method takes in an `ObservableCollection` typed parameter. 
+This collection will later be binded to the UI in Xamarin, so we will need to push any new messages into this collection.
+
+
 
