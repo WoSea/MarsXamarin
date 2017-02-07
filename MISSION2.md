@@ -48,6 +48,7 @@ Of course, we can also change many other properties of the `Label` in XAML, some
 ```
 
 For our simple chat application, we want to have 2 things:
+
 1. A `ListView` to show the messages in the conversation
 2. A `Entry` (text box) which will use to enter text we want to send to the bot
 
