@@ -20,6 +20,7 @@ In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
 3. [Use the Microsoft Computer Vision API with camera images from the app](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
 
 If you've finished the missions, there are some challenges for you to complete to and win some prizes.
+
 4. [Challenges](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGES.md)
 
 ## Starting Point
