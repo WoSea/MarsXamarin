@@ -1,22 +1,23 @@
 # Mission 2: Making an interface to interact with the bot
 
 ## Introduction
-In this mission, we will learn how to create a simple Xamarin UI using XAML.
+In this mission, we will create a simple application page with these components:
 
-This UI will contain a `ListView` for displaying the messages between the user and the bot, as well as an `Entry` for sending messages to the bot.
+1. Create a simple Xamarin UI using XAML
+2. Make a `ListView` for displaying the messages between the user and the bot
+3. Make a `Entry` for sending messages to the bot
+4. Making the BotConnection work with the UI through data binding
 
-We will also learn how to bind data, as well as use the class we made in Mission 1 to work with the bot.
-
-## Default page
+## Breaking it down
 In the project, there should be a `MainPage.xaml`. This `.xaml` file represents the first page your application will default to when you start it.
 
-Every `.xaml` file also has a "Code Behind" file which can be used to contain the code and logic for that page. You can see this file by clicking the small arrow next to the `MainPage.xaml` file and clicking on `MainPage.xaml.cs`.
+Every `.xaml` file also has a "code-behind" file which can be used to contain the code and logic for that page. You can see this file by clicking the small arrow next to the `MainPage.xaml` file and clicking on `MainPage.xaml.cs`.
 
 In this tutorial, we will be using both the `.xaml` and `.xaml.cs` files to design the UI and make it work.
 
-## Crafting your UI in XAML
-XAML is often used to define the visual contents of an application's page. 
-It allows you to define the page's elements, including it's position, color, text and many other properties.
+## Laying out the UI
+XAML is used to define the visual contents of an application's page. 
+It allows you to define the page's elements, including its position, color, text and many other properties.
 
 For example, let's open and look at the default `MainPage.xaml` that we have:
 
@@ -53,7 +54,7 @@ For our simple chat application, we want to have 2 things:
 
 In this scenario, a `StackLayout` works perfect. A `StackLayout` allows us to easily position elements in our XAML, setting horizontal and vertical properties.
 
-Let's define a `StackLayout` element: 
+Replace the `Label` with this `StackLayout` element: 
 
 ```xml
 <StackLayout Spacing="10" Padding="10" HorizontalOptions="Fill" VerticalOptions="Fill" Orientation="Vertical">
@@ -103,6 +104,19 @@ In this snippet, we use a simple `TextCell`, which is a pre-defined cell type pr
 </ListView>
 ```
 
+## Connecting the bot to this page
+Since we've already abstracted all the connection logic into a different class in Mission 1,
+we can simply make a new object to connect to the bot in code.
+
+Open the code-behind file `MainPage.xaml.cs` and simply make a new object with your name in the constructor parameter:
+
+```cs
+//Initialize a connection with ID and Name
+BotConnection connection = new BotConnection("James");
+```
+
+Done! Now this page in your application will be able to access the bot through code.
+
 ## Data binding
 ### Introduction
 Often times, UI isn't static. It is dynamic and needs to display data accordingly.
@@ -119,7 +133,7 @@ Data binding allows you to establish a contract bewteen the data and the display
 ### ListView Binding
 In our case, the `ListView` will be used to display messages to and from the bot. We will use an `ObservableCollection`, which is a special collection type that can be binded to a `ListView`.
 
-Previously in Mission 1, we created a `MessageListItem` class that we will be able to use here.
+Previously in Mission 1, we created a `MessageListItem` class that we will be able to use here. 
 
 Let's open `MainPage.xaml.cs` and make a new `ObservableCollection` that takes in the type `MessageListItem`.
 
@@ -127,14 +141,22 @@ Let's open `MainPage.xaml.cs` and make a new `ObservableCollection` that takes i
 ObservableCollection<MessageListItem> messageList = new ObservableCollection<MessageListItem>();
 ```
 
+The reason we created and used a custom `MessageListItem` class with the properties `Text` and `Sender`, is to bind the properties to the cells in the list.
+
+You can see that binding in the XAML of the `ListView`.
+```xml
+<TextCell Text="{Binding Text}" Detail="{Binding Sender}" />
+```
+
 Previously, in our XAML, we gave the `ListView` a name of "MessageListView". Assigning a name to the element in XAML allows us to access it as a variable
-in the code-behind file of the XAML. We can call the variable in our `.xaml.cs` file.
+in the code-behind file of the XAML. 
 
-Let's use that to bind our newly created `ObservableCollection` to the `ListView`.
-
-We can do this in the constructor of the MainPage.
+Let's use that to bind our newly created `ObservableCollection` to the `ListView` in the constructor of the MainPage.
 
 ```cs
+//Initialize a connection with ID and Name
+BotConnection connection = new BotConnection("James");
+
 //ObservableCollection to store the messages to be displayed
 ObservableCollection<MessageListItem> messageList = new ObservableCollection<MessageListItem>();
 
@@ -142,11 +164,57 @@ public MainPage()
 {
     InitializeComponent();
 
-        //Bind the ListView to the ObservableCollection
-        MessageListView.ItemsSource = messageList;
+    //Bind the ListView to the ObservableCollection
+    MessageListView.ItemsSource = messageList;
 }
 ```
 Now that's done! Any new additions to the `messageList` collection will magically reflect on the UI in the `MessageListView`.
 
-### Input events
-We also have a entry box that allows the user to enter messages.
+### Connecting messages to the collection
+Let's revise what we currently have. At the moment, we have a `ListView` UI element that has been binded to an `ObservableCollection`.
+This means any changes to the collection will reflect in the `ListView`. 
+
+Every `MessageListItem` object added to the collection will also get it's own cell with the message data in the `ListView`.
+
+Now that the binding has been setup, we just have to let any new messages that come in be added to the `ObservableCollection`.
+This is where our Mission 1 method comes in handy. We can simply do this:
+
+```cs
+//Initialize a connection with ID and Name
+BotConnection connection = new BotConnection("James");
+
+//ObservableCollection to store the messages to be displayed
+ObservableCollection<MessageListItem> messageList = new ObservableCollection<MessageListItem>();
+
+public MainPage()
+{
+    InitializeComponent();
+
+    //Bind the ListView to the ObservableCollection
+    MessageListView.ItemsSource = messageList;
+
+    //Start listening to messages and add any new ones to the collection
+    Task.Run(() => connection.GetMessagesAsync(messageList));
+}
+```
+
+
+## Input events
+We also have a `Entry` box that allows the user to enter messages. We need to make it so that when the user presses enter, it sends a message to the bot.
+
+In order to do that, we have to link the UI up to the code. We want a method to execute when the user presses return.
+
+We can do that by setting an event in the XAML of the `Entry` element.
+
+```xml
+<Entry Placeholder="Message"
+        VerticalOptions="End"
+        HorizontalOptions="Fill"
+        HorizontalTextAlignment="End"
+        Completed="Send"
+        />
+```
+
+What this change does is that it tells the program: "Hey, when the user presses return, run the Send() method".
+
+Now that we've declared this in the XAML, we also need to define the method in the code-behind file.
