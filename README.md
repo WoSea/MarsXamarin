@@ -10,6 +10,18 @@ After establishing a connection, We also need to create a tool that can patch ou
 ## Prerequisites
 Go through this [install document](https://github.com/jamesleeht/MarsXamarin/blob/master/INSTALL.md).
 
+## Introduction
+Xamarin allows you to write your code base once in C#/.NET and have it deployed across the 3 popular mobile platforms, iOS, Android and Windows Phone.
+
+In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
+
+1. [Connects to a bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION1.md)
+2. [Has an interface that allows you to interact with it](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION2.md)
+3. [Use the Microsoft Computer Vision API with camera images from the app](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
+
+If you've finished the missions, there are some challenges for you to complete to and win some prizes.
+4. [Challenges](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGES.md)
+
 ## Starting Point
 In this repository there is a blank Xamarin.Forms shared project that has been pre-configured with the right nugets for you.
 
@@ -19,13 +31,4 @@ The main nugets installed in this project are:
 
 These nugets allow us to communicate with the bot using pre-defined methods and classes, without the need for manually writing HTTP calls.
 
-Click on the `MarsBuddyBlank` submodule in this repository to download the starting project.  
-
-## Introduction
-Xamarin allows you to write your code base once in C#/.NET and have it deployed across the 3 popular mobile platforms, iOS, Android and Windows Phone.
-
-In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
-
-1. [Connects to a bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION1.md)
-2. [Has an interface that allows you to interact with it](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION2.md)
-3. [Use the Microsoft Computer Vision API with camera images from the app](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
+Click on the `MarsBuddyBlank` submodule in this repository to download the starting project. 
