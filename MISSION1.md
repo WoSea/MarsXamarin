@@ -75,6 +75,8 @@ and use that to create an `Activity` that will be sent to the conversation we in
 #### MessageListItem Class
 We will need to create a class that will be used to store the messages in an `ObservableCollection`.
 
+This class will later be used for data binding in the UI.
+
 Right click on the main project and go to Add > New Item > Class and name it MessageListItem.cs.
 
 Change the class to look like this:
@@ -127,10 +129,10 @@ public async Task GetMessagesAsync(ObservableCollection<MessageListItem> collect
 }
 ```
 
-In this method, it checks for new messages every second, establishing a watermark every iteration to ensure that we do not retrieve old messages.
-
 This method takes in an `ObservableCollection` typed parameter. 
 This collection will later be binded to the UI in Xamarin, so we will need to push any new messages into this collection.
 
+In this method, it checks for new messages every second, establishing a watermark every iteration to ensure that we do not retrieve old messages.
+Whenever we retrieve a new message, we create a new `MessageListItem` from it and push it into the collection.
 
-
+In the next mission, we will look into utilizing the class we crafted here in Mission 1.
