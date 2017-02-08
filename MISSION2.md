@@ -198,7 +198,6 @@ public MainPage()
 }
 ```
 
-
 ## Input events
 We also have a `Entry` box that allows the user to enter messages. We need to make it so that when the user presses enter, it sends a message to the bot.
 
@@ -218,3 +217,45 @@ We can do that by setting an event in the XAML of the `Entry` element.
 What this change does is that it tells the program: "Hey, when the user presses return, run the Send() method".
 
 Now that we've declared this in the XAML, we also need to define the method in the code-behind file.
+
+Open `MainPage.xaml.cs` and define a new method named Send():
+
+```cs
+public void Send(object sender, EventArgs args)
+{
+        //Get text in entry
+        var message = ((Entry)sender).Text;
+
+        if(message.Length > 0)
+        {
+            //Clear entry
+            ((Entry)sender).Text = "";
+
+            //Make object to be placed in ListView
+            var messageListItem = new MessageListItem(message, connection.Account.Name);
+            messageList.Add(messageListItem);
+
+            //Send the message to the bot
+            connection.SendMessage(message);
+        }
+}
+```
+
+Now this method will be executed whenever someone presses return on the `Entry` box:
+
+1. Get the user's message
+2. Clear the entry box
+3. Add the message into the collection for display
+4. Send the message to the bot
+
+## Finish Line
+
+That was a long mission, but we managed to use materials from Mission 1 to complete Mission 2 and now we have an
+application that can communicate with the bot easily.
+
+You'll find a few issues with this UI however.
+
+1. The messages get cut off if they are too long
+2. No more messages display if they exceed the height of the ListView
+
+We'll look into a few of these issues later in the challenges portion.

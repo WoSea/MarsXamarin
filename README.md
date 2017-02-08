@@ -21,7 +21,7 @@ In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
 
 If you've finished the missions, there are some challenges for you to complete to and win some prizes.
 
-4. [Challenges](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGES.md)
+1. [Challenges](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGES.md)
 
 ## Starting Point
 In this repository there is a blank Xamarin.Forms shared project that has been pre-configured with the right nugets for you.
