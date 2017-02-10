@@ -41,9 +41,40 @@ Repeat the above steps and install `Microsoft.ProjectOxford.Vision` as well.
 Xamarin.Forms doesn't natively provide the ability to access camera APIs, 
 but the `Xam.Plugin.Media` plugin helps us to access the camera APIs on each native platform in shared code.
 
+### Setting up the plugin
+
 In this lab, we will be testing the application in UWP, since only the UWP application runs on your computer natively and will be able to access your webcam.
 
-As a result, we need to enable the webcam permission on the UWP project. Open `Package.appxmanifest` in your UWP project.
+We need to enable the webcam permission on the UWP project for testing.
+
+1. Open `Package.appxmanifest` in your UWP project.
+2. Click the Capabilities tab
+3. Tick the Webcam checkbox
+4. Done!
+
+Next, we need to initialize the plugin in code. Open `MainPage.xaml.cs` and add the plugin namespace, initializing it in the constructor:
+
+```cs
+using Plugin.Media;
+
+public MainPage()
+{
+    InitializeComponent();
+
+    //Bind the ListView to the ObservableCollection
+    MessageListView.ItemsSource = messageList;
+
+    //Start listening to messages
+    Task.Run(() => connection.GetMessagesAsync(messageList));
+
+    //Initialize camera plugin
+    CrossMedia.Current.Initialize();
+}
+```
+
+Done! Now we can call the plugin in other parts of the code and it will be able to access the camera in UWP.
+
+### Triggering the camera
 
 We want to make it so that the camera opens on a button click. Let's first define a button in our `MainPage.xaml`
 below the `Entry` box.
@@ -76,3 +107,84 @@ below the `Entry` box.
 ```
 
 In the XAML, we defined that when we click the button, we should execute the `TakePic()` method.
+
+Let's define our method in `MainPage.xaml.cs` to open the camera.
+
+```cs
+public async void TakePic(object sender, EventArgs args)
+{
+    //Check if camera is available
+    if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+    {
+        //Supply media options for saving our photo after it's taken.
+        var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+        {
+            Directory = "Receipts",
+            Name = $"{DateTime.UtcNow}.jpg"
+        };
+
+        //Get taken picture
+        var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
+    }
+}
+```
+
+Using the Xamarin Media Plugin makes it simple to call the camera on any platform. After checking for camera availability
+and specifying the format which we want to save the picture, we can get the picture taken in a variable.
+
+## Implementing Computer Vision
+Now that we have the camera setup and can get the captured picture from it, we need to pass it into the Computer Vision API.
+
+Since we installed a Nuget that helps us interact with the API, let's make a simple method that uses the client library.
+
+First, we need to initialize the client library with our CV API key.
+
+```cs
+//Computer Vision client
+VisionServiceClient visionClient = new VisionServiceClient("775c63123c104445bbc227eb90496098");
+```
+
+Then, we can define the method:
+
+```cs
+public async Task<AnalysisResult> GetImageDescriptionAsync(Stream imageStream)
+{
+    VisualFeature[] features = { VisualFeature.Tags, VisualFeature.Categories, VisualFeature.Description };
+    var result = await visionClient.AnalyzeImageAsync(imageStream, features.ToList(), null);
+    return result;
+}
+```
+
+This simple method takes in a stream, passes it into the API and returns the result. 
+
+We can now call this method in our `TakePic()` function.
+
+```cs
+public async void TakePic(object sender, EventArgs args)
+{
+    if (CrossMedia.Current.IsCameraAvailable && CrossMedia.Current.IsTakePhotoSupported)
+    {
+        //Supply media options for saving our photo after it's taken.
+        var mediaOptions = new Plugin.Media.Abstractions.StoreCameraMediaOptions
+        {
+            Directory = "Receipts",
+            Name = $"{DateTime.UtcNow}.jpg"
+        };
+
+        //Get taken picture
+        var file = await CrossMedia.Current.TakePhotoAsync(mediaOptions);
+        var fileStream = file.GetStream();
+
+        //Display loading
+        await DisplayAlert("Loading Result", "Please wait", "OK");
+        
+        //Send file to ComputerVision
+        var result = await GetImageDescriptionAsync(fileStream);
+        await DisplayAlert("Detection Result", "I think it's " + result.Description.Captions[0].Text, "OK");
+    }
+}
+```
+
+After getting the file from the camera, we convert that into a stream and pass it into the CV API and display the result in an alert window.
+
+Done! Your users should now be able to click the button, take a picture and get an analysis result.
