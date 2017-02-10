@@ -1,4 +1,6 @@
 # Mission 2: Making an interface to interact with the bot
+Now that we've established how to connect to the alien MarsBot, we need to let our team members utilize this connection easily.
+By building a quick Xamarin application with a simple UI, our team members will be able to use all their different devices to talk to and get answers from the bot.
 
 ## Introduction
 In this mission, we will create a simple application page with these components:

@@ -13,11 +13,11 @@ Go through this [install document](https://github.com/jamesleeht/MarsXamarin/blo
 ## Introduction
 Xamarin allows you to write your code base once in C#/.NET and have it deployed across the 3 popular mobile platforms, iOS, Android and Windows Phone.
 
-In this Mars Mission guide, we will learn to build a Xamarin Forms app that:
+In this Mars Mission guide, we will learn to build a Xamarin Forms app:
 
-1. [Connects to a bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION1.md)
-2. [Has an interface that allows you to interact with it](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION2.md)
-3. [Use the Microsoft Computer Vision API with camera images from the app](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
+1. [Connecting to a bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION1.md)
+2. [Making an interface to interact with the bot](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION2.md)
+3. [Using camera images to work with the Computer Vision API](https://github.com/jamesleeht/MarsXamarin/blob/master/MISSION3.md)
 
 If you've finished the missions, there are some challenges for you to complete to and win some prizes.
 

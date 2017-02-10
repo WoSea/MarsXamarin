@@ -1,11 +1,13 @@
 # Mission 1: Connecting to a bot
+Your team has found an alien bot on Mars that will be able to answer questions about Mars. There's a problem though. The bot has it's own special set of parameters and communication methods.
+As a result, we need to craft a class which will help us in connecting to the bot. We need to establish the right functions in our new class for use in our application later.
 
-## Introduction
+## Technical Introduction
 In this mission, we will be connecting to a bot built in NodeJS and the Microsoft Bot Framework. Bots built using the Microsoft Bot Framework have a Direct Line channel.
 This channel is essentially a REST API that allows us to interact with the bot using HTTP requests and responses.
 
 Although it is possible to setup your own classes and models for accessing the REST API, it can be troublesome. Luckily, there is a Nuget package published by Microsoft
-for use with .NET projects which helps us abstract the REST API calls.
+for use with .NET projects which helps us abstract the REST API calls. The Nuget has already been installed for you in this project.
 
 ## Connecting the bot
 Our application needs to communicate with the bot in 2 ways: Sending and receiving messages. As a result, we will need to use methods to send messages to the bot as well as constantly receive messages from the bot.
