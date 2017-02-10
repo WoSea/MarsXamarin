@@ -27,6 +27,8 @@ There are 2 Nugets which we want to install in our project:
 
 ### Installation steps
 
+![step1](https://raw.githubusercontent.com/jamesleeht/MarsXamarin/master/Images/solutionnugets.png)
+
 1. Right-click on the solution and click "Manage NuGet packages for solution".
 2. Click on the "Browse" tab
 3. Search for `Xam.Plugin.Media`
