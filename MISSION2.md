@@ -196,7 +196,7 @@ public MainPage()
     MessageListView.ItemsSource = messageList;
 
     //Start listening to messages and add any new ones to the collection
-    Task.Run(() => connection.GetMessagesAsync(messageList));
+    var messageTask = connection.GetMessagesAsync(messageList);
 }
 ```
 
@@ -255,9 +255,12 @@ Now this method will be executed whenever someone presses return on the `Entry` 
 That was a long mission, but we managed to use materials from Mission 1 to complete Mission 2 and now we have an
 application that can communicate with the bot easily.
 
-You'll find a few issues with this UI however.
+Try asking it a few questions to test it!
 
-1. The messages get cut off if they are too long
-2. No more messages display if they exceed the height of the ListView
+1. How big is mars?
+2. How far away is mars?
+3. Is there life on mars?
 
-We'll look into a few of these issues later in the challenges portion.
+You'll notice there's a an issue with the UI however. The message cuts off if it's too long and the cells aren't suitable for messages.
+
+We'll look into this in Challenge 1 later.

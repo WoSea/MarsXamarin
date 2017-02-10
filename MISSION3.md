@@ -137,9 +137,12 @@ Now that we have the camera setup and can get the captured picture from it, we n
 
 Since we installed a Nuget that helps us interact with the API, let's make a simple method that uses the client library.
 
-First, we need to initialize the client library with our CV API key.
+First, we need to initialize the client library with our CV API key. (I've provided an API key here for convenience)
 
 ```cs
+using Microsoft.ProjectOxford.Vision;
+using Microsoft.ProjectOxford.Vision.Contract;
+
 //Computer Vision client
 VisionServiceClient visionClient = new VisionServiceClient("775c63123c104445bbc227eb90496098");
 ```
