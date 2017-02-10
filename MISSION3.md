@@ -35,4 +35,3 @@ There are 2 Nugets which we want to install in our project:
 
 Repeat the above steps and install `Microsoft.ProjectOxford.Vision` as well.
 
-
