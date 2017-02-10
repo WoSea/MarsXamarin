@@ -37,3 +37,42 @@ There are 2 Nugets which we want to install in our project:
 
 Repeat the above steps and install `Microsoft.ProjectOxford.Vision` as well.
 
+## Implementing the camera
+Xamarin.Forms doesn't natively provide the ability to access camera APIs, 
+but the `Xam.Plugin.Media` plugin helps us to access the camera APIs on each native platform in shared code.
+
+In this lab, we will be testing the application in UWP, since only the UWP application runs on your computer natively and will be able to access your webcam.
+
+As a result, we need to enable the webcam permission on the UWP project. Open `Package.appxmanifest` in your UWP project.
+
+We want to make it so that the camera opens on a button click. Let's first define a button in our `MainPage.xaml`
+below the `Entry` box.
+
+```xml
+<StackLayout Spacing="10" Padding="10" HorizontalOptions="Fill" VerticalOptions="Fill" Orientation="Vertical">
+        <ListView x:Name="MessageListView"
+                        VerticalOptions="StartAndExpand"
+                        HorizontalOptions="Fill"
+                        >
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <TextCell Text="{Binding Text}" Detail="{Binding Sender}" />
+              </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    
+        <Entry Placeholder="Message"
+                VerticalOptions="End"
+                HorizontalOptions="Fill"
+                HorizontalTextAlignment="End"
+                />
+
+        <Button Text="Take Picture"
+          VerticalOptions="End"
+          HorizontalOptions="Fill"
+          Clicked="TakePic"
+          />
+</StackLayout>
+```
+
+In the XAML, we defined that when we click the button, we should execute the `TakePic()` method.
