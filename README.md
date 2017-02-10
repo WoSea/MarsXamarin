@@ -22,7 +22,7 @@ In this Mars Mission guide, we will learn to build a Xamarin Forms app:
 If you've finished the missions, there are some challenges for you to complete to and win some prizes.
 
 1. [Challenge 1: Quality Control](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGE1.md)
-2. [Challenge 2: Finding Aliens](https:/github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGE2.md)
+2. [Challenge 2: Finding Aliens](https://github.com/jamesleeht/MarsXamarin/blob/master/CHALLENGE2.md)
 
 ## Starting Point
 In this repository there is a blank Xamarin.Forms shared project that has been pre-configured with the right nugets for you.
